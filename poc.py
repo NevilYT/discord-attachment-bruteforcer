@@ -107,11 +107,10 @@ session = Discord(args.token)
 if args.show_channels:
     for channel in sorted(session.get_channels(args.guild), reverse=True, key=lambda x: int(x.get("last_message_id") or 0)):
         if channel["type"] == 0:
+            date = "Never"
             if channel.get("last_message_id"):
                 last_message_ts = ((int(channel["last_message_id"]) / 4194304) + 1420070400000)/1000
                 date = datetime.utcfromtimestamp(last_message_ts).strftime("%Y-%m-%d %H:%M:%S")
-            else:
-                date = "Never"
             print(f"#{channel['name']} -- Last Active:", date)
     exit()
 
