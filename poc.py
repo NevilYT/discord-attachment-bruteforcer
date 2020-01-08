@@ -140,14 +140,12 @@ while 1:
             if channel.get("last_message_id") == message_cache.get(channel["id"]):
                 continue
 
-            # Skip to next channel if -i is set and message was posted prior
-            if args.ignore and not message_cache.get(channel["id"]):
-                # Update cache to this message
-                message_cache[channel["id"]] = channel["last_message_id"]
-                continue
-            
             # Update cache to this message
             message_cache[channel["id"]] = channel["last_message_id"]
+
+            # Skip to next channel if -i is set and message was posted prior
+            if args.ignore and not message_cache.get(channel["id"]):
+                continue
         
             # Pass message and channel to message_queue
             message_queue.put([channel["last_message_id"], channel])
