@@ -27,8 +27,8 @@ ATTACHMENT_URL_FORMAT = "https://cdn.discordapp.com/attachments/{channel_id}/{at
 parser = argparse.ArgumentParser(epilog="Author: h0nda (twitter.com/h0nde)")
 parser.add_argument("-t", "--token", type=str, required=True, help="Authentication token for Discord")
 parser.add_argument("-g", "--guild", type=str, required=True, help="The target guild/server's ID", metavar="GUILD_ID")
-parser.add_argument("-c", "--channels", type=str, nargs='+', required=not "--show-channels" in sys.argv, help="Target channel(s) (can be names or IDs)", metavar="channel-name")
-parser.add_argument("-f", "--filenames", type=str, default=DEFAULT_FILENAMES, nargs='+', required=False, help="Filename(s) that will be used for bruteforcing", metavar="filename.png")
+parser.add_argument("-c", "--channels", type=str, nargs="+", required=not "--show-channels" in sys.argv and not "-s" in sys.argv, help="Target channel(s) (can be names or IDs)", metavar="channel-name")
+parser.add_argument("-f", "--filenames", type=str, default=DEFAULT_FILENAMES, nargs="+", required=False, help="Filename(s) that will be used for bruteforcing", metavar="filename.png")
 parser.add_argument("-n", "--steps", type=int, default=DEFAULT_STEPS, nargs=2, required=False, help="Range of steps to try below & above the message ID while bruteforcing attachments (default: -20, 5)")
 parser.add_argument("-r", "--retries", type=int, default=10, required=False, help="# of retries if a request fails (default: 10)")
 parser.add_argument("-d", "--delay", type=float, default=0.25, required=False, help="Delay for checking messages (in seconds, default: 0.25 sec)")
@@ -109,7 +109,7 @@ if args.show_channels:
         if channel["type"] == 0:
             if channel.get("last_message_id"):
                 last_message_ts = ((int(channel["last_message_id"]) / 4194304) + 1420070400000)/1000
-                date = datetime.utcfromtimestamp(last_message_ts).strftime('%Y-%m-%d %H:%M:%S')
+                date = datetime.utcfromtimestamp(last_message_ts).strftime("%Y-%m-%d %H:%M:%S")
             else:
                 date = "Never"
             print(f"#{channel['name']} -- Last Active:", date)
