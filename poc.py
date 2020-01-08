@@ -133,7 +133,7 @@ while 1:
             if channel["type"] != 0: continue
 
             # Skip channel if it is not included in -c arg (by either ID or name)
-            if not channel["id"] in args.channels and not any(c.lower().replace("#", "") == channel["name"].lower() for c in args.channels):
+            if not any(c.lower().replace("#", "") == channel["name"].lower() or channel["id"] == c for c in args.channels):
                 continue
 
             # Skip to next channel if there is no new message
